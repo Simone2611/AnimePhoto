@@ -1,0 +1,124 @@
+---
+import { getSafeAnimeImages } from "../utils/getSafeAnimeImages";
+
+const images = await getSafeAnimeImages();
+---
+
+<section class="animes">
+  {
+    images.items.length > 0 ? (
+      <ul>
+        {images.items.map((img: any) => (
+          <li class="image-container">
+            <div class="skeleton" />
+            <img class="skeleton" src={img.url} alt="Anime Image" />
+            <div class="info">
+              {img.tags.map((tag: any) => <p>{tag}</p>) || <p>No tags</p>}
+            </div>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>No images found</p>
+    )
+  }
+</section>
+
+<script>
+  const images = document.querySelectorAll("img");
+  images.forEach((img) => {
+    showImage(img);
+  });
+  function showImage(img) {
+    setTimeout(() => {
+      img.style.display = "block"; // Show image
+      img.previousElementSibling.style.display = "none"; // Hide skeleton
+    }, 1000); // 1-second delay
+  }
+</script>
+
+<style>
+  .info {
+    position: absolute;
+    display: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  .info:hover {
+    display: block;
+  }
+  .animes {
+    width: 90vw;
+    margin: 0 auto;
+  }
+  .animes ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    list-style: none;
+    padding: 0;
+    gap: 10px;
+  }
+
+  img {
+    width: calc(300px + 2vw);
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .image-container {
+    position: relative;
+    width: calc(200px + 3vw);
+    height: calc(200px + 3vh);
+    overflow: hidden;
+    border-radius: 10px;
+    border: solid 2px black;
+  }
+
+  .skeleton {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: effettoCarica 1.5s infinite linear;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+  }
+
+  @keyframes effettoCarica {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .animes ul {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 425px) {
+    .animes ul {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .animes ul {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
