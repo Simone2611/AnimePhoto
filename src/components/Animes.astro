@@ -29,7 +29,7 @@ const images = await getSafeAnimeImages();
   images.forEach((img) => {
     showImage(img);
   });
-  function showImage(img) {
+  function showImage(img: any) {
     setTimeout(() => {
       img.style.display = "block"; // Show image
       img.previousElementSibling.style.display = "none"; // Hide skeleton
